@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angol Szókincs & Nyelvvizsga Mester (1110 Szó)</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #090d16, #1e1b4b);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #f8fafc;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 { text-align: center; color: #38bdf8; margin-bottom: 5px; font-size: 28px; }
+        p.sub { text-align: center; color: #94a3b8; margin-bottom: 25px; }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .menu-card {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .menu-card:hover { background: rgba(51, 65, 85, 0.95); transform: translateY(-3px); border-color: #38bdf8; }
+        .menu-card h3 { margin: 0 0 5px 0; color: #f1f5f9; font-size: 16px; }
+        .menu-card span { font-size: 12px; color: #94a3b8; }
+
+        .section-view {
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 20px;
+            display: none;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .back-btn {
+            background: #475569;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: 0.2s;
+        }
+        .back-btn:hover { background: #64748b; }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            max-height: 55vh;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .word-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid #334155;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .word-hu { font-size: 14px; color: #94a3b8; margin-bottom: 4px; }
+        .word-en { font-size: 17px; font-weight: bold; color: #38bdf8; margin-bottom: 10px; }
+
+        .speak-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .speak-btn:hover { background: #1d4ed8; }
+
+        .test-box {
+            background: rgba(15, 23, 42, 0.92);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .test-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #475569;
+            background: #1e293b;
+            color: white;
+            font-size: 18px;
+            margin-top: 15px;
+            text-align: center;
+            outline: none;
+        }
+        .test-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+        .test-btn:hover { background: #059669; }
+        .help-btn {
+            background: #d97706;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .help-btn:hover { background: #b45309; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🇬🇧 Angol Nyelvvizsga Mester Pro (1110 Szó)</h1>
+        <p class="sub">Most már külön Melléknevek és Érzelmek kategóriával is kiegészítve!</p>
+
+        <!-- FŐMENÜ -->
+        <div class="menu-grid" id="mainMenu">
+            <div class="menu-card" onclick="nyitKategoria('melleknevek')"><h3>✨ Melléknevek</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('erzelmek')"><h3>💖 Ézrelmek & Kifejezések</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('abc')"><h3>🔤 Angol ABC</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('nyelvtani_szavak')"><h3>📚 Szavak nyelvtanuláshoz</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('ido_egyseg')"><h3>📅 Napok, hónapok, évszakok</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('orszagok')"><h3>🌍 Országok, nemzetek</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('szamok')"><h3>🔢 Számok</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('szinek')"><h3>🎨 Színek</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('nevmasok')"><h3>👤 Személyes névmások</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('napi_rutin')"><h3>⏰ Napi rutin</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('csalad')"><h3>👨‍👩‍👧‍👦 A család</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('foglalkozasok')"><h3>💼 Foglalkozások</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('udvozles')"><h3>🤝 Üdvözlés</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('ellentet1')"><h3>⚖️ Ellentétpárok I.</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('ellentet2')"><h3>⚖️ Ellentétpárok II.</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('ellentet3')"><h3>⚖️ Ellentétpárok III.</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('ellentet4')"><h3>⚖️ Ellentétpárok IV.</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('eros_melleknevek')"><h3>✨ Erős melléknevek</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('targyak')"><h3>🎒 Tárgyak</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('idohatarozok')"><h3>⏳ Időhatározó szavak</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('etel_ital')"><h3>🍲 Étel és ital</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('italok')"><h3>☕ Italok</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('gyumolcsok')"><h3>🍎 Gyümölcsök & Zöldségek</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('allatok')"><h3>🐶 Állatok</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('ruhak')"><h3>👕 Ruhák</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('otthon')"><h3>🏠 Otthon</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('konyhaban')"><h3>🍳 A konyhában</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('varosban')"><h3>🏙️ A városban</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('idojaras')"><h3>🌤️ Az időjárás</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('szemelyiseg')"><h3>🧠 Személyiség</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('penz')"><h3>💰 Pénz</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('test')"><h3>👤 Az emberi test</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('rendhagyo_igek')"><h3>🔄 Rendhagyó igék I.</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('tobbesszam')"><h3>👥 Rendhagyó többes szám</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('rendhagyo_mellek')"><h3>⚡ Rendhagyó melléknevek</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('ion_szavak')"><h3>🔬 -ion végű szavak</h3><span>30 elem</span></div>
+            <div class="menu-card" onclick="nyitKategoria('csillagjegyek')"><h3>♈ Csillagjegyek</h3><span>30 elem</span></div>
+            <div class="menu-card" style="background: #059669;" onclick="nyitKategoria('teszt')"><h3>✍️ Nagy Írásos Teszt</h3><span>Mind az 1110 szóból!</span></div>
+        </div>
+
+        <!-- TARTALOM NÉZET -->
+        <div id="tartalomNezet" class="section-view">
+            <button class="back-btn" onclick="visszaFomenv()">⬅ Vissza a főmenübe</button>
+            <h2 id="kategoriaCim" style="color: #38bdf8; margin-top: 0;"></h2>
+            <div class="cards-grid" id="szavakGrid"></div>
+        </div>
+
+        <!-- TESZT NÉZET -->
+        <div id="tesztNezet" class="section-view">
+            <button class="back-btn" onclick="visszaFomenv()">⬅ Vissza a főmenübe</button>
+            <h2 style="color: #38bdf8; margin-top: 0;">✍️ Hatalmas Írásos Teszt (1110 Szó)</h2>
+            
+            <div class="test-box">
+                <div style="font-size: 14px; color: #94a3b8; margin-bottom: 5px;">Fordítsd le angolra:</div>
+                <div id="tesztKerdes" style="font-size: 26px; font-weight: bold; color: #38bdf8; margin-bottom: 10px;"></div>
+                <button class="speak-btn" onclick="kiejt(aktHelyesSzo)" style="padding: 8px 16px; margin-bottom: 15px;">🔊 Hallgasd meg</button>
+                <input type="text" id="tesztInput" class="test-input" placeholder="Írd be a szót angolul..." autocomplete="off">
+                <button class="test-btn" onclick="ellenorizIrasos()">Ellenőrzés</button>
+                <button class="help-btn" onclick="mutatSegitseg()">💡 Nem tudom / Mutasd a megoldást!</button>
+                <div id="tesztEredmeny" style="margin-top: 20px; font-size: 18px; font-weight: bold;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const adatbazis = {
+            melleknevek: [
+                {hu:"Fontos", en:"Important"}, {hu:"Érdekes", en:"Interesting"}, {hu:"Unalmas", en:"Boring"}, {hu:"Nehéz", en:"Difficult"},
+                {hu:"Könnyű", en:"Easy"}, {hu:"Drága", en:"Expensive"}, {hu:"Olcsó", en:"Cheap"}, {hu:"Biztonságos", en:"Safe"},
+                {hu:"Veszélyes", en:"Dangerous"}, {hu:"Tiszta", en:"Clean"}, {hu:"Piszkos", en:"Dirty"}, {hu:"Gyors", en:"Fast"},
+                {hu:"Lassú", en:"Slow"}, {hu:"Magas", en:"High"}, {hu:"Alacsony", en:"Low"}, {hu:"Széles", en:"Wide"},
+                {hu:"Keskeny", en:"Narrow"}, {hu:"Erős", en:"Strong"}, {hu:"Gyenge", en:"Weak"}, {hu:"Egészséges", en:"Healthy"},
+                {hu:"Beteg", en:"Sick"}, {hu:"Fáradt", en:"Tired"}, {hu:"Éhes", en:"Hungry"}, {hu:"Szomjas", en:"Thirsty"},
+                {hu:"Boldog", en:"Happy"}, {hu:"Szomorú", en:"Sad"}, {hu:"Dühös", en:"Angry"}, {hu:"Nyugodt", en:"Calm"},
+                {hu:"Okos", en:"Smart"}, {hu:"Hülye", en:"Foolish"}
+            ],
+            erzelmek: [
+                {hu:"Öröm", en:"Joy"}, {hu:"Félelem", en:"Fear"}, {hu:"Szeretet", en:"Love"}, {hu:"Gyűlölet", en:"Hate"},
+                {hu:"Meglepetés", en:"Surprise"}, {hu:"Csalódottság", en:"Disappointment"}, {hu:"Büszkeség", en:"Pride"}, {hu:"Szégyen", en:"Shame"},
+                {hu:"Remény", en:"Hope"}, {hu:"Kétségbeesés", en:"Despair"}, {hu:"Izgalom", en:"Excitement"}, {hu:"Irigység", en:"Jealousy"},
+                {hu:"Hála", en:"Gratitude"}, {hu:"Magány", en:"Loneliness"}, {hu:"Együttérzés", en:"Sympathy"}, {hu:"Köszönöm szépen", en:"Thank you very much"},
+                {hu:"Nagyon örülök", en:"I'm very glad"}, {hu:"Sajnálom", en:"I'm sorry"}, {hu:"Jó utat!", en:"Have a nice trip!"}, {hu:"Minden jót!", en:"All the best!"},
+                {hu:"Sok sikert!", en:"Good luck!"}, {hu:"Ne aggódj!", en:"Don't worry!"}, {hu:"Semmi baj", en:"No problem"}, {hu:"Persze", en:"Of course"},
+                {hu:"Természetesen", en:"Naturally"}, {hu:"Sajnos", en:"Unfortunately"}, {hu:"Remélhetőleg", en:"Hopefully"}, {hu:"Biztosan", en:"Certainly"},
+                {hu:"Komolyan?", en:"Really?"}, {hu:"Nem hiszem el", en:"I can't believe it"}
+            ],
+            abc: [
+                {hu:"A betű", en:"A"}, {hu:"B betű", en:"B"}, {hu:"C betű", en:"C"}, {hu:"D betű", en:"D"},
+                {hu:"E betű", en:"E"}, {hu:"F betű", en:"F"}, {hu:"G betű", en:"G"}, {hu:"H betű", en:"H"},
+                {hu:"I betű", en:"I"}, {hu:"J betű", en:"J"}, {hu:"K betű", en:"K"}, {hu:"L betű", en:"L"},
+                {hu:"M betű", en:"M"}, {hu:"N betű", en:"N"}, {hu:"O betű", en:"O"}, {hu:"P betű", en:"P"},
+                {hu:"Q betű", en:"Q"}, {hu:"R betű", en:"R"}, {hu:"S betű", en:"S"}, {hu:"T betű", en:"T"},
+                {hu:"U betű", en:"U"}, {hu:"V betű", en:"V"}, {hu:"W betű", en:"W"}, {hu:"X betű", en:"X"},
+                {hu:"Y betű", en:"Y"}, {hu:"Z betű", en:"Z"}, {hu:"Magánhangzó", en:"Vowel"}, {hu:"Mássalhangzó", en:"Consonant"},
+                {hu:"Kiejtés", en:"Pronunciation"}, {hu:"Helyesírás", en:"Spelling"}
+            ],
+            nyelvtani_szavak: [
+                {hu:"Főnév", en:"Noun"}, {hu:"Ige", en:"Verb"}, {hu:"Melléknév", en:"Adjective"}, {hu:"Határozószó", en:"Adverb"},
+                {hu:"Névmás", en:"Pronoun"}, {hu:"Elöljárószó", en:"Preposition"}, {hu:"Kötőszó", en:"Conjunction"}, {hu:"Múlt idő", en:"Past tense"},
+                {hu:"Jelen idő", en:"Present tense"}, {hu:"Jövő idő", en:"Future tense"}, {hu:"Kérdőmondat", en:"Question"}, {hu:"Tagadás", en:"Negative"},
+                {hu:"Többes szám", en:"Plural"}, {hu:"Egyes szám", en:"Singular"}, {hu:"Szabály", en:"Rule"}, {hu:"Példa", en:"Example"},
+                {hu:"Jelentés", en:"Meaning"}, {hu:"Fordítás", en:"Translation"}, {hu:"Kifejezés", en:"Expression"}, {hu:"Mondat", en:"Sentence"},
+                {hu:"Igeidő", en:"Tense"}, {hu:"Segédige", en:"Auxiliary verb"}, {hu:"Mellékmondat", en:"Clause"}, {hu:"Alany", en:"Subject"},
+                {hu:"Tárgy", en:"Object"}, {hu:"Jelző", en:"Attribute"}, {hu:"Igeragozás", en:"Conjugation"}, {hu:"Kivétel", en:"Exception"},
+                {hu:"Gyakorlat", en:"Exercise"}, {hu:"Teszt", en:"Test"}
+            ],
+            ido_egyseg: [
+                {hu:"Hétfő", en:"Monday"}, {hu:"Kedd", en:"Tuesday"}, {hu:"Szerda", en:"Wednesday"}, {hu:"Csütörtök", en:"Thursday"},
+                {hu:"Péntek", en:"Friday"}, {hu:"Szombat", en:"Saturday"}, {hu:"Vasárnap", en:"Sunday"}, {hu:"Január", en:"January"},
+                {hu:"Február", en:"February"}, {hu:"Március", en:"March"}, {hu:"Április", en:"April"}, {hu:"Május", en:"May"},
+                {hu:"Június", en:"June"}, {hu:"Július", en:"July"}, {hu:"Augusztus", en:"August"}, {hu:"Szeptember", en:"September"},
+                {hu:"Október", en:"October"}, {hu:"November", en:"November"}, {hu:"December", en:"December"}, {hu:"Tavasz", en:"Spring"},
+                {hu:"Nyár", en:"Summer"}, {hu:"Ősz", en:"Autumn"}, {hu:"Tél", en:"Winter"}, {hu:"Hét", en:"Week"},
+                {hu:"Nap", en:"Day"}, {hu:"Hónap", en:"Month"}, {hu:"Év", en:"Year"}, {hu:"Évszázad", en:"Century"},
+                {hu:"Perc", en:"Minute"}, {hu:"Óra", en:"Hour"}
+            ],
+            orszagok: [
+                {hu:"Magyarország", en:"Hungary"}, {hu:"Anglia", en:"England"}, {hu:"Egyesült Államok", en:"United States"}, {hu:"Németország", en:"Germany"},
+                {hu:"Franciaország", en:"France"}, {hu:"Olaszország", en:"Italy"}, {hu:"Spanyolország", en:"Spain"}, {hu:"Ausztria", en:"Austria"},
+                {hu:"Lengyelország", en:"Poland"}, {hu:"Japán", en:"Japan"}, {hu:"Kína", en:"China"}, {hu:"Magyar (nemzet)", en:"Hungarian"},
+                {hu:"Angol", en:"English"}, {hu:"Amerikai", en:"American"}, {hu:"Német", en:"German"}, {hu:"Francia", en:"French"},
+                {hu:"Olasz", en:"Italian"}, {hu:"Spanyol", en:"Spanish"}, {hu:"Osztrák", en:"Austrian"}, {hu:"Kínai", en:"Chinese"},
+                {hu:"Oroszország", en:"Russia"}, {hu:"Orosz", en:"Russian"}, {hu:"Kanada", en:"Canada"}, {hu:"Kanadai", en:"Canadian"},
+                {hu:"Brazília", en:"Brazil"}, {hu:"Brazíliai", en:"Brazilian"}, {hu:"Nagy-Britannia", en:"Great Britain"}, {hu:"Európa", en:"Europe"},
+                {hu:"Ázsia", en:"Asia"}, {hu:"Világ", en:"World"}
+            ],
+            szamok: [
+                {hu:"Egy", en:"One"}, {hu:"Kettő", en:"Two"}, {hu:"Három", en:"Three"}, {hu:"Négy", en:"Four"},
+                {hu:"Öt", en:"Five"}, {hu:"Hat", en:"Six"}, {hu:"Hét", en:"Seven"}, {hu:"Nyolc", en:"Eight"},
+                {hu:"Kilenc", en:"Nine"}, {hu:"Tíz", en:"Ten"}, {hu:"Tizenegy", en:"Eleven"}, {hu:"Tizenkettő", en:"Twelve"},
+                {hu:"Tizenhárom", en:"Thirteen"}, {hu:"Tizennégy", en:"Fourteen"}, {hu:"Tizenöt", en:"Fifteen"}, {hu:"Húsz", en:"Twenty"},
+                {hu:"Harminc", en:"Thirty"}, {hu:"Negyven", en:"Forty"}, {hu:"Ötven", en:"Fifty"}, {hu:"Hatvan", en:"Sixty"},
+                {hu:"Hetven", en:"Seventy"}, {hu:"Nyolcvan", en:"Eighty"}, {hu:"Kilencven", en:"Ninety"}, {hu:"Száz", en:"Hundred"},
+                {hu:"Ezer", en:"Thousand"}, {hu:"Millió", en:"Million"}, {hu:"Első", en:"First"}, {hu:"Második", en:"Second"},
+                {hu:"Harmadik", en:"Third"}, {hu:"Utolsó", en:"Last"}
+            ],
+            szinek: [
+                {hu:"Piros", en:"Red"}, {hu:"Kék", en:"Blue"}, {hu:"Zöld", en:"Green"}, {hu:"Sárga", en:"Yellow"},
+                {hu:"Fekete", en:"Black"}, {hu:"Fehér", en:"White"}, {hu:"Szürke", en:"Grey"}, {hu:"Barna", en:"Brown"},
+                {hu:"Narancssárga", en:"Orange"}, {hu:"Lila", en:"Purple"}, {hu:"Rózsaszín", en:"Pink"}, {hu:"Arany", en:"Gold"},
+                {hu:"Ezüst", en:"Silver"}, {hu:"Világos", en:"Light"}, {hu:"Sötét", en:"Dark"}, {hu:"Pirosas", en:"Reddish"},
+                {hu:"Kékes", en:"Bluish"}, {hu:"Fényes", en:"Bright"}, {hu:"Matt", en:"Matte"}, {hu:"Színes", en:"Colorful"},
+                {hu:"Bézs", en:"Beige"}, {hu:"Türkiz", en:"Turquoise"}, {hu:"Bordó", en:"Burgundy"}, {hu:"Krém", en:"Cream"},
+                {hu:"Olajzöld", en:"Olive"}, {hu:"Bronz", en:"Bronze"}, {hu:"Átlátszó", en:"Transparent"}, {hu:"Fekete-fehér", en:"Black and white"},
+                {hu:"Mintás", en:"Patterned"}, {hu:"Egyszínű", en:"Plain"}
+            ],
+            nevmasok: [
+                {hu:"Én", en:"I"}, {hu:"Te", en:"You"}, {hu:"Ő (férfi)", en:"He"}, {hu:"Ő (nő)", en:"She"},
+                {hu:"Ő / Az", en:"It"}, {hu:"Mi", en:"We"}, {hu:"Ti", en:"You"}, {hu:"Ők", en:"They"},
+                {hu:"Engem / Nekem", en:"Me"}, {hu:"Tged / Neked", en:"You"}, {hu:"Neki (fiú)", en:"Him"}, {hu:"Neki (lány)", en:"Her"},
+                {hu:"Nekünk", en:"Us"}, {hu:"Nekik", en:"Them"}, {hu:"Enyém", en:"Mine"}, {hu:"Tiéd", en:"Yours"},
+                {hu:"Övé", en:"His"}, {hu:"Övé (lány)", en:"Hers"}, {hu:"Miénk", en:"Ours"}, {hu:"Övék", en:"Theirs"},
+                {hu:"Ez", en:"This"}, {hu:"Az", en:"That"}, {hu:"Ezek", en:"These"}, {hu:"Azok", en:"Those"},
+                {hu:"Ki?", en:"Who"}, {hu:"Mi?", en:"What"}, {hu:"Aki", en:"Who"}, {hu:"Ami", en:"Which"},
+                {hu:"Senki", en:"Nobody"}, {hu:"Valaki", en:"Someone"}
+            ],
+            napi_rutin: [
+                {hu:"Felkelni", en:"Wake up"}, {hu:"Kikelni az ágyból", en:"Get up"}, {hu:"Megmosni az arcot", en:"Wash face"}, {hu:"Fogat mosni", en:"Brush teeth"},
+                {hu:"Reggelizni", en:"Eat breakfast"}, {hu:"Felöltözni", en:"Get dressed"}, {hu:"Elindulni otthonról", en:"Leave home"}, {hu:"Menni a munkába", en:"Go to work"},
+                {hu:"Dolgozni", en:"Work"}, {hu:"Ebédelni", en:"Have lunch"}, {hu:"Hazajönni", en:"Come home"}, {hu:"Vásárolni", en:"Go shopping"},
+                {hu:"Vacsokzni", en:"Eat dinner"}, {hu:"Televíziót nézni", en:"Watch TV"}, {hu:"Olvasni", en:"Read a book"}, {hu:"Zuhanyozni", en:"Take a shower"},
+                {hu:"Pizsamát felvenni", en:"Put on pyjamas"}, {hu:"Lekapcsolni a lámpát", en:"Turn off light"}, {hu:"Aludni menni", en:"Go to sleep"}, {hu:"Álmodni", en:"Dream"},
+                {hu:"Borotválkozni", en:"Shave"}, {hu:"Sminkelni", en:"Put on makeup"}, {hu:"Hajat fésülni", en:"Brush hair"}, {hu:"Kutyát sétáltatni", en:"Walk the dog"},
+                {hu:"Takarítani", en:"Clean the house"}, {hu:"Mosni", en:"Do the laundry"}, {hu:"Vasalni", en:"Iron"}, {hu:"Főzni", en:"Cook"},
+                {hu:"Pihenni", en:"Relax"}, {hu:"Sportolni", en:"Do sports"}
+            ],
+            csalad: [
+                {hu:"Család", en:"Family"}, {hu:"Apa", en:"Father"}, {hu:"Anya", en:"Mother"}, {hu:"Szülők", en:"Parents"},
+                {hu:"Fiúgyermek", en:"Son"}, {hu:"Lánygyermek", en:"Daughter"}, {hu:"Testvér", en:"Sibling"}, {hu:"Báty / Öcs", en:"Brother"},
+                {hu:"Nővér / Húg", en:"Sister"}, {hu:"Nagyapa", en:"Grandfather"}, {hu:"Nagymama", en:"Grandmother"}, {hu:"Unoka", en:"Grandchild"},
+                {hu:"Nagybácsi", en:"Uncle"}, {hu:"Nagynéni", en:"Aunt"}, {hu:"Unokatestvér", en:"Cousin"}, {hu:"Férj", en:"Husband"},
+                {hu:"Feleség", en:"Wife"}, {hu:"Gyermek", en:"Child"}, {hu:"Rokon", en:"Relative"}, {hu:"Barát", en:"Friend"},
+                {hu:"Menyasszony", en:"Fiancée"}, {hu:"Vőlegény", en:"Fiancé"}, {hu:"Vje", en:"Son-in-law"}, {hu:"Meny", en:"Daughter-in-law"},
+                {hu:"Mostohaapa", en:"Stepfather"}, {hu:"Mostohaanya", en:"Stepmother"}, {hu:"Iker", en:"Twin"}, {hu:"Keresztszülő", en:"Godparent"},
+                {hu:"Keresztgyerek", en:"Godchild"}, {hu:"Agglegény", en:"Bachelor"}
+            ],
+            foglalkozasok: [
+                {hu:"Orvos", en:"Doctor"}, {hu:"Tanár", en:"Teacher"}, {hu:"Mérnök", en:"Engineer"}, {hu:"Ügyvéd", en:"Lawyer"},
+                {hu:"Szakács", en:"Chef"}, {hu:"Rendőr", en:"Police officer"}, {hu:"Tűzoltó", en:"Firefighter"}, {hu:"Ápoló", en:"Nurse"},
+                {hu:"Programozó", en:"Programmer"}, {hu:"Könyvelő", en:"Accountant"}, {hu:"Eladó", en:"Shop assistant"}, {hu:"Sofőr", en:"Driver"},
+                {hu:"Pincér", en:"Waiter"}, {hu:"Szerelő", en:"Mechanic"}, {hu:"Építész", en:"Architect"}, {hu:"Vállalkozó", en:"Entrepreneur"},
+                {hu:"Újságíró", en:"Journalist"}, {hu:"Fényképész", en:"Photographer"}, {hu:"Művész", en:"Artist"}, {hu:"Festő", en:"Painter"},
+                {hu:"Fogorvos", en:"Dentist"}, {hu:"Állatorvos", en:"Vet"}, {hu:"Pszichológus", en:"Psychologist"}, {hu:"Kertész", en:"Gardener"},
+                {hu:"Fodrász", en:"Hairdresser"}, {hu:"Takarító", en:"Cleaner"}, {hu:"Pilóta", en:"Pilot"}, {hu:"Légiutas-kísérő", en:"Flight attendant"},
+                {hu:"Politikus", en:"Politician"}, {hu:"Tudós", en:"Scientist"}
+            ],
+            udvozles: [
+                {hu:"Jó napot!", en:"Good day!"}, {hu:"Jó reggelt!", en:"Good morning!"}, {hu:"Jó estét!", en:"Good evening!"}, {hu:"Jó éjszakát!", en:"Good night!"},
+                {hu:"Szia! / Helló!", en:"Hello! / Hi!"}, {hu:"Viszontlátásra!", en:"Goodbye!"}, {hu:"Viszlát!", en:"Bye!"}, {hu:"Hogy vagy?", en:"How are you?"},
+                {hu:"Köszönöm, jól", en:"I'm fine, thanks"}, {hu:"Örülök, hogy megismertelek", en:"Nice to meet you"}, {hu:"Kérem szépen", en:"Please"}, {hu:"Köszönöm szépen", en:"Thank you very much"},
+                {hu:"Nincs mit", en:"You're welcome"}, {hu:"Elnézést", en:"Excuse me"}, {hu:"Bocsánat", en:"Sorry"}, {hu:"Sok szerencsét!", en:"Good luck!"},
+                {hu:"Egészségedre!", en:"Bless you! / Cheers!"}, {hu:"Vigyázz magadra!", en:"Take care!"}, {hu:"Hamarosan találkozunk", en:"See you soon"}, {hu:"Igen / Nem", en:"Yes / No"},
+                {hu:"Hogy hívnak?", en:"What is your name?"}, {hu:"A nevem...", en:"My name is..."}, {hu:"Hol élsz?", en:"Where do you live?"}, {hu:"Örülök", en:"Glad to hear that"},
+                {hu:"Mi újság?", en:"What's up?"}, {hu:"Semmi különös", en:"Nothing special"}, {hu:"Viszont hallásra", en:"Goodbye"}, {hu:"Szép napot!", en:"Have a nice day!"},
+                {hu:"Köszönöm a segítséget", en:"Thanks for your help"}, {hu:"Szívesen", en:"You're welcome"}
+            ],
+            ellentet1: [
+                {hu:"Nagy - Kicsi", en:"Big - Small"}, {hu:"Jó - Rossz", en:"Good - Bad"}, {hu:"Hosszú - Rövid", en:"Long - Short"}, {hu:"Magas - Alacsony", en:"Tall - Short"},
+                {hu:"Gyors - Lassú", en:"Fast - Slow"}, {hu:"Meleg - Hideg", en:"Hot - Cold"}, {hu:"Új - Régi", en:"New - Old"}, {hu:"Fiatal - Idős", en:"Young - Old"},
+                {hu:"Boldog - Szomorú", en:"Happy - Sad"}, {hu:"Gazdag - Szegény", en:"Rich - Poor"}, {hu:"Könnyű - Nehéz", en:"Easy - Hard"}, {hu:"Tiszta - Piszkos", en:"Clean - Dirty"},
+                {hu:"Szép - Csúnya", en:"Beautiful - Ugly"}, {hu:"Hangos - Csendes", en:"Loud - Quiet"}, {hu:"Erős - Gyenge", en:"Strong - Weak"}, {hu:"Nyitott - Zárt", en:"Open - Closed"},
+                {hu:"Egyszerű - Bonyolult", en:"Simple - Complex"}, {hu:"Igaz - Hamis", en:"True - False"}, {hu:"Teljes - Üres", en:"Full - Empty"}, {hu:"Száraz - Nedves", en:"Dry - Wet"},
+                {hu:"Széles - Keskeny", en:"Wide - Narrow"}, {hu:"Vastag - Vékony", en:"Thick - Thin"}, {hu:"Mély - Sekély", en:"Deep - Shallow"}, {hu:"Éles - Tompa", en:"Sharp - Blunt"},
+                {hu:"Sima - Durva", en:"Smooth - Rough"}, {hu:"Biztonságos - Veszélyes", en:"Safe - Dangerous"}, {hu:"Olcsó - Drága", en:"Cheap - Expensive"}, {hu:"Egészséges - Beteg", en:"Healthy - Sick"},
+                {hu:"Okos - Buta", en:"Smart - Stupid"}, {hu:"Kedves - Udvariatlan", en:"Polite - Rude"}
+            ],
+            ellentet2: [
+                {hu:"Fent - Lent", en:"Up - Down"}, {hu:"Elöl - Hátul", en:"Front - Back"}, {hu:"Bent - Kint", en:"Inside - Outside"}, {hu:"Itt - Ott", en:"Here - There"},
+                {hu:"Első - Utolsó", en:"First - Last"}, {hu:"Korán - Késő", en:"Early - Late"}, {hu:"Mindig - Soha", en:"Always - Never"}, {hu:"Valaki - Senki", en:"Someone - No one"},
+                {hu:"Valami - Semmi", en:"Something - Nothing"}, {hu:"Mindenhol - Sehol", en:"Everywhere - Nowhere"}, {hu:"Sok - Kevés", en:"Much - Little"}, {hu:"Nagyobb - Kisebb", en:"Bigger - Smaller"},
+                {hu:"Jobb - Bal", en:"Right - Left"}, {hu:"Könnyű - Nehéz (súly)", en:"Light - Heavy"}, {hu:"Közel - Távol", en:"Near - Far"}, {hu:"Fent - Alul", en:"Above - Below"},
+                {hu:"Előtt - Utána", en:"Before - After"}, {hu:"Velem - Nélkülem", en:"With - Without"}, {hu:"Mindkettő - Egyik sem", en:"Both - Neither"}, {hu:"Valaki - Bárki", en:"Someone - Anyone"},
+                {hu:"Valamikor - Soha", en:"Sometime - Never"}, {hu:"Mindenki - Senki", en:"Everyone - Nobody"}, {hu:"Valószínűleg - Biztosan", en:"Probably - Certainly"}, {hu:"Ismét - Soha többé", en:"Again - Never again"},
+                {hu:"Ma - Holnap", en:"Today - Tomorrow"}, {hu:"Tegnap - Ma", en:"Yesterday - Today"}, {hu:"Reggel - Este", en:"Morning - Evening"}, {hu:"Éjjel - Nappal", en:"Night - Day"},
+                {hu:"Jobban - Rosszabbul", en:"Better - Worse"}, {hu:"Legjobb - Legrosszabb", en:"Best - Worst"}
+            ],
+            ellentet3: [
+                {hu:"Adni - Kapni", en:"Give - Receive"}, {hu:"Venni - Eladni", en:"Buy - Sell"}, {hu:"Kezdeni - Befejezni", en:"Start - Finish"}, {hu:"Nyerni - Veszíteni", en:"Win - Lose"},
+                {hu:"Találni - Elveszíteni", en:"Find - Lose"}, {hu:"Érkezni - Indulni", en:"Arrive - Leave"}, {hu:"Szeretni - Gyűlölni", en:"Love - Hate"}, {hu:"Építeni - Rombolni", en:"Build - Destroy"},
+                {hu:"Jönni - Menni", en:"Come - Go"}, {hu:"Kérdezni - Válaszolni", en:"Ask - Answer"}, {hu:"Sírni - Nevetni", en:"Cry - Laugh"}, {hu:"Élni - Meghalni", en:"Live - Die"},
+                {hu:"Emlékezni - Elfelejteni", en:"Remember - Forget"}, {hu:"Megengedni - Tiltani", en:"Allow - Forbid"}, {hu:"Tanulni - Tanítani", en:"Learn - Teach"}, {hu:"Küldeni - Fogadni", en:"Send - Receive"},
+                {hu:"Feltűnni - Eltűnni", en:"Appear - Disappear"}, {hu:"Elfogadni - Visszautasítani", en:"Accept - Refuse"}, {hu:"Növekedni - Csökkenni", en:"Increase - Decrease"}, {hu:"Kinyitni - Becsukni", en:"Open - Close"},
+                {hu:"Megérteni - Félreérteni", en:"Understand - Misunderstand"}, {hu:"Elfoglalni - Felszabadítani", en:"Capture - Release"}, {hu:"Védeni - Támadni", en:"Defend - Attack"}, {hu:"Javítani - Rontani", en:"Improve - Worsen"},
+                {hu:"Csatlakozni - Elhagyni", en:"Join - Leave"}, {hu:"Tartani - Elengedni", en:"Hold - Drop"}, {hu:"Mutatni - Elrejteni", en:"Show - Hide"}, {hu:"Meghívni - Kitiltani", en:"Invite - Ban"},
+                {hu:"Segíteni - Akadályozni", en:"Help - Hinder"}, {hu:"Sikerülni - Elbukni", en:"Succeed - Fail"}
+            ],
+            ellentet4: [
+                {hu:"Száraz - Vizes", en:"Dry - Wet"}, {hu:"Sima - Durva", en:"Smooth - Rough"}, {hu:"Éles - Tompa", en:"Sharp - Blunt"}, {hu:"Világos - Sötét", en:"Bright - Dark"},
+                {hu:"Kemény - Puha", en:"Hard - Soft"}, {hu:"Mély - Sekély", en:"Deep - Shallow"}, {hu:"Széles - Keskeny", en:"Wide - Narrow"}, {hu:"Vastag - Vékony", en:"Thick - Thin"},
+                {hu:"Egyenes - Görbe", en:"Straight - Curved"}, {hu:"Hangos - Halk", en:"Noisy - Quiet"}, {hu:"Béke - Háború", en:"Peace - War"}, {hu:"Siker - Kudarc", en:"Success - Failure"},
+                {hu:"Öröm - Bánat", en:"Joy - Sorrow"}, {hu:"Egész - Rész", en:"Whole - Part"}, {hu:"Szabad - Rab", en:"Free - Captive"}, {hu:"Publikus - Privát", en:"Public - Private"},
+                {hu:"Aktív - Passzív", en:"Active - Passive"}, {hu:"Természetes - Mesterséges", en:"Natural - Artificial"}, {hu:"Valódi - Hamis", en:"Real - Fake"}, {hu:"Egészséges - Káros", en:"Healthy - Harmful"},
+                {hu:"Fontos - Lényegtelen", en:"Important - Trivial"}, {hu:"Lehetséges - Lehetetlen", en:"Possible - Impossible"}, {hu:"Legális - Illegális", en:"Legal - Illegal"}, {hu:"Pontos - Pontatlan", en:"Exact - Inexact"},
+                {hu:"Boldog - Boldogtalan", en:"Happy - Unhappy"}, {hu:"Barátságos - Ellenséges", en:"Friendly - Hostile"}, {hu:"Türelem - Türelmetlenség", en:"Patience - Impatience"}, {hu:"Bűnös - Ártatlan", en:"Guilty - Innocent"},
+                {hu:"Felnőtt - Gyerek", en:"Adult - Child"}, {hu:"Férfi - Nő", en:"Man - Woman"}
+            ],
+            eros_melleknevek: [
+                {hu:"Nagyon jó / Fantasztikus", en:"Fantastic"}, {hu:"Nagyon rossz / Borzalmas", en:"Terrible"}, {hu:"Nagyon nagy / Hatalmas", en:"Huge"}, {hu:"Nagyon kicsi / Apró", en:"Tiny"},
+                {hu:"Nagyon fáradt", en:"Exhausted"}, {hu:"Nagyon dühös", en:"Furious"}, {hu:"Nagyon finom / Ízletes", en:"Delicious"}, {hu:"Nagyon hideg / Fagyos", en:"Freezing"},
+                {hu:"Nagyon meleg / Forró", en:"Boiling"}, {hu:"Nagyon éhes", en:"Starving"}, {hu:"Nagyon ijedt", en:"Terrified"}, {hu:"Nagyon tiszta", en:"Spotless"},
+                {hu:"Nagyon gazdag", en:"Filthy rich"}, {hu:"Nagyon öreg / Ősi", en:"Ancient"}, {hu:"Nagyon szép / Lenyűgöző", en:"Stunning"}, {hu:"Nagyon vicces / Nevetséges", en:"Hilarious"},
+                {hu:"Nagyon okos", en:"Brilliant"}, {hu:"Nagyon biztos", en:"Certain"}, {hu:"Nagyon szegény", en:"Destitute"}, {hu:"Nagyon világos", en:"Dazzling"},
+                {hu:"Nagyon dühös / Megrémült", en:"Appalled"}, {hu:"Nagyon szomorú", en:"Heartbroken"}, {hu:"Nagyon okos / Zseniális", en:"Genius"}, {hu:"Nagyon gyors", en:"Lightning-fast"},
+                {hu:"Nagyon ijesztő", en:"Terrifying"}, {hu:"Nagyon érdekes", en:"Fascinating"}, {hu:"Nagyon unalmas", en:"Dull"}, {hu:"Nagyon mocskos", en:"Filthy"},
+                {hu:"Nagyon zsúfolt", en:"Packed"}, {hu:"Nagyon csendes", en:"Pin-drop quiet"}
+            ],
+            targyak: [
+                {hu:"Asztal", en:"Table"}, {hu:"Szék", en:"Chair"}, {hu:"Ablak", en:"Window"}, {hu:"Ajtó", en:"Door"},
+                {hu:"Ágy", en:"Bed"}, {hu:"Lámpa", en:"Lamp"}, {hu:"Tükör", en:"Mirror"}, {hu:"Szekrény", en:"Wardrobe"},
+                {hu:"Számítógép", en:"Computer"}, {hu:"Telefon", en:"Phone"}, {hu:"Kulcs", en:"Key"}, {hu:"Toll", en:"Pen"},
+                {hu:"Könyv", en:"Book"}, {hu:"Füzet", en:"Notebook"}, {hu:"Óra", en:"Clock"}, {hu:"Táska", en:"Bag"},
+                {hu:"Pénztárca", en:"Wallet"}, {hu:"Esernyő", en:"Umbrella"}, {hu:"Szemüveg", en:"Glasses"}, {hu:"Papír", en:"Paper"},
+                {hu:"Televízió", en:"Television"}, {hu:"Rádió", en:"Radio"}, {hu:"Fényképezőgép", en:"Camera"}, {hu:"Nyomtató", en:"Printer"},
+                {hu:"Billentyűzet", en:"Keyboard"}, {hu:"Egér", en:"Mouse"}, {hu:"Töltő", en:"Charger"}, {hu:"Fülhallgató", en:"Headphones"},
+                {hu:"Olló", en:"Scissors"}, {hu:"Ragacsos szalag", en:"Tape"}
+            ],
+            idohatarozok: [
+                {hu:"Ma", en:"Today"}, {hu:"Tegnap", en:"Yesterday"}, {hu:"Holnap", en:"Tomorrow"}, {hu:"Most", en:"Now"},
+                {hu:"Mindig", en:"Always"}, {hu:"Soha", en:"Never"}, {hu:"Gyakran", en:"Often"}, {hu:"Ritkán", en:"Seldom"},
+                {hu:"Néha", en:"Sometimes"}, {hu:"Már", en:"Already"}, {hu:"Még nem", en:"Yet"}, {hu:"Később", en:"Later"},
+                {hu:"Hamarosan", en:"Soon"}, {hu:"Nemrég", en:"Recently"}, {hu:"Előtte", en:"Before"}, {hu:"Utána", en:"After"},
+                {hu:"A napokban", en:"These days"}, {hu:"Tavaly", en:"Last year"}, {hu:"Jövőre", en:"Next year"}, {hu:"Mindjárt", en:"Soon"},
+                {hu:"Néha-néha", en:"Occasionally"}, {hu:"Rendszeresen", en:"Regularly"}, {hu:"Általában", en:"Usually"}, {hu:"Alig", en:"Hardly"},
+                {hu:"Egyszer", en:"Once"}, {hu:"Kétszer", en:"Twice"}, {hu:"Mindörökké", en:"Forever"}, {hu:"Ideiglenesen", en:"Temporarily"},
+                {hu:"Véglegesen", en:"Permanently"}, {hu:"Azonnal", en:"Immediately"}
+            ],
+            etel_ital: [
+                {hu:"Kenyér", en:"Bread"}, {hu:"Hús", en:"Meat"}, {hu:"Sajt", en:"Cheese"}, {hu:"Tojás", en:"Egg"},
+                {hu:"Vaj", en:"Butter"}, {hu:"Leves", en:"Soup"}, {hu:"Húsleves", en:"Broth"}, {hu:"Sült hús", en:"Roast meat"},
+                {hu:"Burgonya", en:"Potato"}, {hu:"Rizs", en:"Rice"}, {hu:"Tészta", en:"Pasta"}, {hu:"Saláta", en:"Salad"},
+                {hu:"Só", en:"Salt"}, {hu:"Bors", en:"Pepper"}, {hu:"Cukor", en:"Sugar"}, {hu:"Liszt", en:"Flour"},
+                {hu:"Méz", en:"Honey"}, {hu:"Lekvár", en:"Jam"}, {hu:"Csokoládé", en:"Chocolate"}, {hu:"Sütemény", en:"Cake"},
+                {hu:"Pizza", en:"Pizza"}, {hu:"Hamburger", en:"Hamburger"}, {hu:"Kolbász", en:"Sausage"}, {hu:"Sonka", en:"Ham"},
+                {hu:"Joghurt", en:"Yogurt"}, {hu:"Tejföl", en:"Sour cream"}, {hu:"Olaj", en:"Oil"}, {hu:"Ecet", en:"Vinegar"},
+                {hu:"Fagylalt", en:"Ice cream"}, {hu:"Keksz", en:"Biscuit"}
+            ],
+            italok: [
+                {hu:"Víz", en:"Water"}, {hu:"Tea", en:"Tea"}, {hu:"Kávé", en:"Coffee"}, {hu:"Tej", en:"Milk"},
+                {hu:"Gyümölcslé", en:"Juice"}, {hu:"Narancslé", en:"Orange juice"}, {hu:"Üdítő", en:"Soft drink"}, {hu:"Sör", en:"Beer"},
+                {hu:"Bor", en:"Wine"}, {hu:"Pezsgő", en:"Champagne"}, {hu:"Ásványvíz", en:"Mineral water"}, {hu:"Forró csoki", en:"Hot chocolate"},
+                {hu:"Limonádé", en:"Lemonade"}, {hu:"Turmix", en:"Smoothie"}, {hu:"Jeges tea", en:"Iced tea"}, {hu:"Koktél", en:"Cocktail"},
+                {hu:"Likőr", en:"Liqueur"}, {hu:"Whisky", en:"Whiskey"}, {hu:"Szörp", en:"Syrup"}, {hu:"Kakaó", en:"Cocoa"},
+                {hu:"Tejeskávé", en:"Café latte"}, {hu:"Espresso", en:"Espresso"}, {hu:"Vodka", en:"Vodka"}, {hu:"Rum", en:"Rum"},
+                {hu:"Gin", en:"Gin"}, {hu:"Palackozott víz", en:"Bottled water"}, {hu:"Zöld tea", en:"Green tea"}, {hu:"Fekete tea", en:"Black tea"},
+                {hu:"Gyógytea", en:"Herbal tea"}, {hu:"Forralt bor", en:"Mulled wine"}
+            ],
+            gyumolcsok: [
+                {hu:"Alma", en:"Apple"}, {hu:"Banán", en:"Banana"}, {hu:"Narancs", en:"Orange"}, {hu:"Citrom", en:"Lemon"},
+                {hu:"Eper", en:"Strawberry"}, {hu:"Cseresznye", en:"Cherry"}, {hu:"Szőlő", en:"Grapes"}, {hu:"Körte", en:"Pear"},
+                {hu:"Őszibarack", en:"Peach"}, {hu:"Szilva", en:"Plum"}, {hu:"Görögdinnye", en:"Watermelon"}, {hu:"Paradicsom", en:"Tomato"},
+                {hu:"Uborka", en:"Cucumber"}, {hu:"Répa", en:"Carrot"}, {hu:"Hagyma", en:"Onion"}, {hu:"Fokhagyma", en:"Garlic"},
+                {hu:"Saláta", en:"Lettuce"}, {hu:"Brokkoli", en:"Broccoli"}, {hu:"Krumpli", en:"Potato"}, {hu:"Gomba", en:"Mushroom"},
+                {hu:"Málna", en:"Raspberry"}, {hu:"Áfonya", en:"Blueberry"}, {hu:"Ananász", en:"Pineapple"}, {hu:"Kiwi", en:"Kiwi"},
+                {hu:"Mandarin", en:"Mandarin"}, {hu:"Grépfrút", en:"Grapefruit"}, {hu:"Spenót", en:"Spinach"}, {hu:"Karfiol", en:"Cauliflower"},
+                {hu:"Paprika", en:"Pepper"}, {hu:"Zeller", en:"Celery"}
+            ],
+            allatok: [
+                {hu:"Kutya", en:"Dog"}, {hu:"Macska", en:"Cat"}, {hu:"Ló", en:"Horse"}, {hu:"Tehén", en:"Cow"},
+                {hu:"Sertés", en:"Pig"}, {hu:"Bárány", en:"Sheep"}, {hu:"Csirke", en:"Chicken"}, {hu:"Kacsa", en:"Duck"},
+                {hu:"Oroszlán", en:"Lion"}, {hu:"Tigris", en:"Tiger"}, {hu:"Elefánt", en:"Elephant"}, {hu:"Majom", en:"Monkey"},
+                {hu:"Medve", en:"Bear"}, {hu:"Farkas", en:"Wolf"}, {hu:"Róka", en:"Fox"}, {hu:"Nyúl", en:"Rabbit"},
+                {hu:"Egér", en:"Mouse"}, {hu:"Madár", en:"Bird"}, {hu:"Hal", en:"Fish"}, {hu:"Kígyó", en:"Snake"},
+                {hu:"Zsiráf", en:"Giraffe"}, {hu:"Zebra", en:"Zebra"}, {hu:"Kenguru", en:"Kangaroo"}, {hu:"Bálna", en:"Whale"},
+                {hu:"Cápa", en:"Shark"}, {hu:"Sas", en:"Eagle"}, {hu:"Bagoly", en:"Owl"}, {hu:"Béka", en:"Frog"},
+                {hu:"Pók", en:"Spider"}, {hu:"Méh", en:"Bee"}
+            ],
+            ruhak: [
+                {hu:"Ing", en:"Shirt"}, {hu:"Póló", en:"T-shirt"}, {hu:"Nadrág", en:"Trousers"}, {hu:"Farmer", en:"Jeans"},
+                {hu:"Kabát", en:"Coat"}, {hu:"Dzseki", en:"Jacket"}, {hu:"Pulóver", en:"Sweater"}, {hu:"Cipő", en:"Shoes"},
+                {hu:"Csizma", en:"Boots"}, {hu:"Zokni", en:"Socks"}, {hu:"Alsónemű", en:"Underwear"}, {hu:"Sapka", en:"Hat"},
+                {hu:"Sál", en:"Scarf"}, {hu:"Kesztyű", en:"Gloves"}, {hu:"Öv", en:"Belt"}, {hu:"Nyakkendő", en:"Tie"},
+                {hu:"Ruha (női)", en:"Dress"}, {hu:"Szoknya", en:"Skirt"}, {hu:"Öltöny", en:"Suit"}, {hu:"Papucs", en:"Slippers"},
+                {hu:"Blúz", en:"Blouse"}, {hu:"Kardigán", en:"Cardigan"}, {hu:"Mellény", en:"Vest"}, {hu:"Pizsama", en:"Pyjamas"},
+                {hu:"Fürdőruha", en:"Swimsuit"}, {hu:"Sportcipő", en:"Trainers"}, {hu:"Kesztyű", en:"Mittens"}, {hu:"Napszemüveg", en:"Sunglasses"},
+                {hu:"Pelenka", en:"Diaper"}, {hu:"Karszalag", en:"Bracelet"}
+            ],
+            otthon: [
+                {hu:"Ház", en:"House"}, {hu:"Lakás", en:"Apartment"}, {hu:"Nappali", en:"Living room"}, {hu:"Hálószoba", en:"Bedroom"},
+                {hu:"Konyha", en:"Kitchen"}, {hu:"Fürdőszoba", en:"Bathroom"}, {hu:"Kert", en:"Garden"}, {hu:"Garázs", en:"Garage"},
+                {hu:"Lépcső", en:"Stairs"}, {hu:"Tető", en:"Roof"}, {hu:"Padló", en:"Floor"}, {hu:"Fal", en:"Wall"},
+                {hu:"Erkély", en:"Balcony"}, {hu:"Kerítés", en:"Fence"}, {hu:"Kapu", en:"Gate"}, {hu:"Kandalló", en:"Fireplace"},
+                {hu:"Pince", en:"Cellar"}, {hu:"Padlás", en:"Attic"}, {hu:"Folyosó", en:"Corridor"}, {hu:"Bejárat", en:"Entrance"},
+                {hu:"Mennyezet", en:"Ceiling"}, {hu:"Ablakpárkány", en:"Windowsill"}, {hu:"Udvar", en:"Yard"}, {hu:"Terasz", en:"Terrace"},
+                {hu:"Lift", en:"Lift"}, {hu:"Kulcslyuk", en:"Keyhole"}, {hu:"Postafiók", en:"Mailbox"}, {hu:"Csengő", en:"Doorbell"},
+                {hu:"Riasztó", en:"Alarm"}, {hu:"Padló", en:"Ground"}
+            ],
+            konyhaban: [
+                {hu:"Hűtőszekrény", en:"Fridge"}, {hu:"Sütő", en:"Oven"}, {hu:"Tűzhely", en:"Stove"}, {hu:"Mikrohullámú sütő", en:"Microwave"},
+                {hu:"Mosogatógép", en:"Dishwasher"}, {hu:"Kés", en:"Knife"}, {hu:"Villa", en:"Fork"}, {hu:"Kanál", en:"Spoon"},
+                {hu:"Tányér", en:"Plate"}, {hu:"Pohár", en:"Glass"}, {hu:"Csésze", en:"Cup"}, {hu:"Serpenyő", en:"Pan"},
+                {hu:"Lábas", en:"Pot"}, {hu:"Vágódeszka", en:"Chopping board"}, {hu:"Szalvéta", en:"Napkin"}, {hu:"Konyharuha", en:"Dishcloth"},
+                {hu:"Kávéfőző", en:"Coffee maker"}, {hu:"Kenyérpirító", en:"Toaster"}, {hu:"Vízforraló", en:"Kettle"}, {hu:"Reszelő", en:"Grater"},
+                {hu:"Merítőkanál", en:"Ladle"}, {hu:"Habverő", en:"Whisk"}, {hu:"Konzitnyitó", en:"Can opener"}, {hu:"Dugóhúzó", en:"Corkscrew"},
+                {hu:"Szűrő", en:"Colander"}, {hu:"Tál", en:"Bowl"}, {hu:"Kancsó", en:"Jug"}, {hu:"Sütőlemez", en:"Baking tray"},
+                {hu:"Fűszertartó", en:"Spice rack"}, {hu:"Kötény", en:"Apron"}
+            ],
+            varosban: [
+                {hu:"Utca", en:"Street"}, {hu:"Tér", en:"Square"}, {hu:"Híd", en:"Bridge"}, {hu:"Kórház", en:"Hospital"},
+                {hu:"Iskola", en:"School"}, {hu:"Bank", en:"Bank"}, {hu:"Posta", en:"Post office"}, {hu:"Bolt", en:"Shop"},
+                {hu:"Szupermarket", en:"Supermarket"}, {hu:"Gyógyszertár", en:"Pharmacy"}, {hu:"Szálloda", en:"Hotel"}, {hu:"Étterem", en:"Restaurant"},
+                {hu:"Kávézó", en:"Café"}, {hu:"Mozi", en:"Cinema"}, {hu:"Színház", en:"Theatre"}, {hu:"Múzeum", en:"Museum"},
+                {hu:"Park", en:"Park"}, {hu:"Rendőrség", en:"Police station"}, {hu:"Tűzoltóság", en:"Fire station"}, {hu:"Templom", en:"Church"},
+                {hu:"Városháza", en:"Town hall"}, {hu:"Buszmegálló", en:"Bus stop"}, {hu:"Vasútállomás", en:"Train station"}, {hu:"Benzinkút", en:"Petrol station"},
+                {hu:"Gyógyszertár", en:"Chemist"}, {hu:"Pláza", en:"Shopping mall"}, {hu:"Közlekedési lámpa", en:"Traffic light"}, {hu:"Gyalogátkelő", en:"Crosswalk"},
+                {hu:"Járda", en:"Pavement"}, {hu:"Könyvtár", en:"Library"}
+            ],
+            idojaras: [
+                {hu:"Időjárás", en:"Weather"}, {hu:"Napos", en:"Sunny"}, {hu:"Esős", en:"Rainy"}, {hu:"Felhős", en:"Cloudy"},
+                {hu:"Szeles", en:"Windy"}, {hu:"Ködös", en:"Foggy"}, {hu:"Havas", en:"Snowy"}, {hu:"Viharos", en:"Stormy"},
+                {hu:"Hőmérséklet", en:"Temperature"}, {hu:"Fok", en:"Degree"}, {hu:"Villámlás", en:"Lightning"}, {hu:"Mennydörgés", en:"Thunder"},
+                {hu:"Szivárvány", en:"Rainbow"}, {hu:"Jégeső", en:"Hail"}, {hu:"Fagy", en:"Frost"}, {hu:"Meleg", en:"Warm"},
+                {hu:"Hideg", en:"Cold"}, {hu:"Nedves", en:"Humid"}, {hu:"Száraz", en:"Dry"}, {hu:"Éghajlat", en:"Climate"},
+                {hu:"Hőség", en:"Heatwave"}, {hu:"Zivatar", en:"Thunderstorm"}, {hu:"Szellő", en:"Breeze"}, {hu:"Szemerkélő eső", en:"Drizzle"},
+                {hu:"Hófúvás", en:"Blizzard"}, {hu:"Szökőár", en:"Tsunami"}, {hu:"Földrengés", en:"Earthquake"}, {hu:"Hurrikán", en:"Hurricane"},
+                {hu:"Aszály", en:"Drought"}, {hu:"Borús", en:"Overcast"}
+            ],
+            szemelyiseg: [
+                {hu:"Kedves", en:"Kind"}, {hu:"Bátor", en:"Brave"}, {hu:"Okos", en:"Smart"}, {hu:"Vicces", en:"Funny"},
+                {hu:"Szorgalmas", en:"Hard-working"}, {hu:"Lusta", en:"Lazy"}, {hu:"Becsületes", en:"Honest"}, {hu:"Barátságos", en:"Friendly"},
+                {hu:"Csendes", en:"Quiet"}, {hu:"Beszédes", en:"Talkative"}, {hu:"Nyugodt", en:"Calm"}, {hu:"Ideges", en:"Nervous"},
+                {hu:"Türelmes", en:"Patient"}, {hu:"Türelmetlen", en:"Impatient"}, {hu:"Magabiztos", en:"Confident"}, {hu:"Félénk", en:"Shy"},
+                {hu:"Önzö", en:"Selfish"}, {hu:"Nagylelkű", en:"Generous"}, {hu:"Kreatív", en:"Creative"}, {hu:"Zseniális", en:"Brilliant"},
+                {hu:"Okos", en:"Clever"}, {hu:"Hűséges", en:"Loyal"}, {hu:"Megbízható", en:"Reliable"}, {hu:"Udvarias", en:"Polite"},
+                {hu:"Makacs", en:"Stubborn"}, {hu:"Komoly", en:"Serious"}, {hu:"Vidám", en:"Cheerful"}, {hu:"Szerény", en:"Modest"},
+                {hu:"Ambiciózus", en:"Ambitious"}, {hu:"Kíváncsi", en:"Curious"}
+            ],
+            penz: [
+                {hu:"Pénz", en:"Money"}, {hu:"Készpénz", en:"Cash"}, {hu:"Bankkártya", en:"Credit card"}, {hu:"Fizetés", en:"Salary"},
+                {hu:"Ár", en:"Price"}, {hu:"Olcsó", en:"Cheap"}, {hu:"Drága", en:"Expensive"}, {hu:"Ingyen", en:"Free"},
+                {hu:"Kölcsönadni", en:"Lend"}, {hu:"Kölcsönkérni", en:"Borrow"}, {hu:"Megtakarítani", en:"Save money"}, {hu:"Költeni", en:"Spend"},
+                {hu:"Bank", en:"Bank"}, {hu:"Számla", en:"Bill"}, {hu:"Adó", en:"Tax"}, {hu:"Vagyon", en:"Fortune"},
+                {hu:"Szegény", en:"Poor"}, {hu:"Gazdag", en:"Rich"}, {hu:"Valuta", en:"Currency"}, {hu:"Költségvetés", en:"Budget"},
+                {hu:"Befektetés", en:"Investment"}, {hu:"Nyereség", en:"Profit"}, {hu:"Veszteség", en:"Loss"}, {hu:"Hitel", en:"Loan"},
+                {hu:"Nyugdíj", en:"Pension"}, {hu:"Költség", en:"Cost"}, {hu:"Bevétel", en:"Income"}, {hu:"ATM (bankautomata)", en:"ATM"},
+                {hu:"Csekk", en:"Cheque"}, {hu:"Kupon", en:"Coupon"}
+            ],
+            test: [
+                {hu:"Fej", en:"Head"}, {hu:"Arc", en:"Face"}, {hu:"Szem", en:"Eye"}, {hu:"Fül", en:"Ear"},
+                {hu:"Orr", en:"Nose"}, {hu:"Száj", en:"Mouth"}, {hu:"Fog", en:"Tooth"}, {hu:"Nyelv", en:"Tongue"},
+                {hu:"Kéz", en:"Hand"}, {hu:"Ujj", en:"Finger"}, {hu:"Kar", en:"Arm"}, {hu:"Láb", en:"Leg"},
+                {hu:"Térd", en:"Knee"}, {hu:"Fej", en:"Head"}, {hu:"Szív", en:"Heart"}, {hu:"Agy", en:"Brain"},
+                {hu:"Gyomor", en:"Stomach"}, {hu:"Bőr", en:"Skin"}, {hu:"Haj", en:"Hair"}, {hu:"Váll", en:"Shoulder"},
+                {hu:"Nyak", en:"Neck"}, {hu:"Mellkas", en:"Chest"}, {hu:"Hát", en:"Back"}, {hu:"Könyök", en:"Elbow"},
+                {hu:"Csukló", en:"Wrist"}, {hu:"Boka", en:"Ankle"}, {hu:"Lábfej", en:"Foot"}, {hu:"Máj", en:"Liver"},
+                {hu:"Tüdő", en:"Lung"}, {hu:"Vese", en:"Kidney"}
+            ],
+            rendhagyo_igek: [
+                {hu:"Lenni", v1:"Be", v2:"Was / Were", v3:"Been"}, {hu:"Kezdeni", v1:"Begin", v2:"Began", v3:"Begun"},
+                {hu:"Törni", v1:"Break", v2:"Broke", v3:"Broken"}, {hu:"Vásárolni", v1:"Buy", v2:"Bought", v3:"Bought"},
+                {hu:"Jönni", v1:"Come", v2:"Came", v3:"Come"}, {hu:"Csinálni", v1:"Do", v2:"Did", v3:"Done"},
+                {hu:"Inni", v1:"Drink", v2:"Drank", v3:"Drunk"}, {hu:"Enni", v1:"Eat", v2:"Ate", v3:"Eaten"},
+                {hu:"Menni", v1:"Go", v2:"Went", v3:"Gone"}, {hu:"Látni", v1:"See", v2:"Saw", v3:"Seen"},
+                {hu:"Beszélni", v1:"Speak", v2:"Spoke", v3:"Spoken"}, {hu:"Írni", v1:"Write", v2:"Wrote", v3:"Written"},
+                {hu:"Mondani", v1:"Say", v2:"Said", v3:"Said"}, {hu:"Úszni", v1:"Swim", v2:"Swam", v3:"Swum"},
+                {hu:"Repülni", v1:"Fly", v2:"Flew", v3:"Flown"}, {hu:"Olvasni", v1:"Read", v2:"Read", v3:"Read"},
+                {hu:"Futni", v1:"Run", v2:"Ran", v3:"Run"}, {hu:"Énekelni", v1:"Sing", v2:"Sang", v3:"Sung"},
+                {hu:"Vezetni", v1:"Drive", v2:"Drove", v3:"Driven"}, {hu:"Aludni", v1:"Sleep", v2:"Slept", v3:"Slept"},
+                {hu:"Építeni", v1:"Build", v2:"Built", v3:"Built"}, {hu:"Találni", v1:"Find", v2:"Found", v3:"Found"},
+                {hu:"Hallani", v1:"Hear", v2:"Heard", v3:"Heard"}, {hu:"Hagyni", v1:"Leave", v2:"Left", v3:"Left"},
+                {hu:"Találkozni", v1:"Meet", v2:"Met", v3:"Met"}, {hu:"Fizetni", v1:"Pay", v2:"Paid", v3:"Paid"},
+                {hu:"Küldeni", v1:"Send", v2:"Sent", v3:"Sent"}, {hu:"Ülni", v1:"Sit", v2:"Sat", v3:"Sat"},
+                {hu:"Állni", v1:"Stand", v2:"Stood", v3:"Stood"}, {hu:"Nyerni", v1:"Win", v2:"Won", v3:"Won"}
+            ],
+            tobbesszam: [
+                {hu:"Gyerek -> Gyerekek", en:"Child -> Children"}, {hu:"Férfi -> Férfiak", en:"Man -> Men"},
+                {hu:"Nő -> Nők", en:"Woman -> Women"}, {hu:"Fog -> Fogak", en:"Tooth -> Teeth"},
+                {hu:"Lábfej -> Lábfejek", en:"Foot -> Feet"}, {hu:"Egér -> Egerek", en:"Mouse -> Mice"},
+                {hu:"Személy -> Személyek", en:"Person -> People"}, {hu:"Kutya -> Kutyák", en:"Dog -> Dogs"},
+                {hu:"Macska -> Macskák", en:"Cat -> Cats"}, {hu:"Doboz -> Dobozok", en:"Box -> Boxes"},
+                {hu:"Busz -> Buszok", en:"Bus -> Buses"}, {hu:"Templom -> Templomok", en:"Church -> Churches"},
+                {hu:"Paradicsom -> Paradicsomok", en:"Tomato -> Tomatoes"}, {hu:"Baba -> Babák", en:"Baby -> Babies"},
+                {hu:"Krumpli -> Krumplik", en:"Potato -> Potatoes"}, {hu:"Farkas -> Farkasok", en:"Wolf -> Wolves"},
+                {hu:"Kés -> Kések", en:"Knife -> Knives"}, {hu:"Élet -> Életek", en:"Life -> Lives"},
+                {hu:"Hős -> Hősök", en:"Hero -> Heroes"}, {hu:"Bálna -> Bálnák", en:"Whale -> Whales"},
+                {hu:"Nyomtatvány -> Nyomtatványok", en:"Form -> Forms"}, {hu:"Tégla -> Téglák", en:"Brick -> Bricks"},
+                {hu:"Polgár -> Polgárok", en:"Citizen -> Citizens"}, {hu:"Folyó -> Folyók", en:"River -> Rivers"},
+                {hu:"Hegy -> Hegyek", en:"Mountain -> Mountains"}, {hu:"Ország -> Országok", en:"Country -> Countries"},
+                {hu:"Város -> Városok", en:"City -> Cities"}, {hu:"Történet -> Történetek", en:"Story -> Stories"},
+                {hu:"Család -> Családok", en:"Family -> Families"}, {hu:"Part -> Partok", en:"Party -> Parties"}
+            ],
+            rendhagyo_mellek: [
+                {hu:"Jó -> Jobb -> Legjobb", en:"Good -> Better -> Best"},
+                {hu:"Rossz -> Rosszabb -> Legrosszabb", en:"Bad -> Worse -> Worst"},
+                {hu:"Sok -> Több -> Legtöbb", en:"Many -> More -> Most"},
+                {hu:"Kevés -> Kevesebb -> Legkevesebb", en:"Little -> Less -> Least"},
+                {hu:"Messze -> Messzebbre -> Legmesszebb", en:"Far -> Farther -> Farthest"},
+                {hu:"Nagy -> Nagyobb -> Legnagyobb", en:"Big -> Bigger -> Biggest"},
+                {hu:"Kicsi -> Kisebb -> Legkisebb", en:"Small -> Smaller -> Smallest"},
+                {hu:"Gyors -> Gyorsabb -> Leggyorsabb", en:"Fast -> Faster -> Fastest"},
+                {hu:"Drága -> Drágább -> Legdrágább", en:"Expensive -> More expensive -> Most expensive"},
+                {hu:"Okos -> Okosabb -> Legokosabb", en:"Smart -> Smarter -> Smartest"},
+                {hu:"Szép -> Szebb -> Legszép", en:"Beautiful -> More beautiful -> Most beautiful"},
+                {hu:"Hideg -> Hidegebb -> Leghidegebb", en:"Cold -> Colder -> Coldest"},
+                {hu:"Meleg -> Melegebb -> Legmelegebb", en:"Warm -> Warmer -> Warmest"},
+                {hu:"Magas -> Magasabb -> Legmagasabb", en:"Tall -> Taller -> Tallest"},
+                {hu:"Alacsony -> Alacsonyabb -> Legalacsonyabb", en:"Short -> Shorter -> Shortest"},
+                {hu:"Öreg -> Öregebb -> Legöregebb", en:"Old -> Older -> Oldest"},
+                {hu:"Fiatal -> Fiatalabb -> Legfiatalabb", en:"Young -> Younger -> Youngest"},
+                {hu:"Nehéz -> Nehezebb -> Legnehezebb", en:"Heavy -> Heavier -> Heaviest"},
+                {hu:"Könnyű -> Könnyebb -> Legkönnyebb", en:"Easy -> Easier -> Easiest"},
+                {hu:"Vastag -> Vastagabb -> Legvastagabb", en:"Thick -> Thicker -> Thickest"},
+                {hu:"Vékony -> Vékonyabb -> Legvékonyabb", en:"Thin -> Thinner -> Thinnest"},
+                {hu:"Széles -> Szélesebb -> Legszélesebb", en:"Wide -> Wider -> Widest"},
+                {hu:"Mély -> Mélyebb -> Legmélyebb", en:"Deep - Deeper - Deepest"},
+                {hu:"Sötét -> Sötétebb -> Legsötétebb", en:"Dark -> Darker -> Darkest"},
+                {hu:"Világos -> Világosabb -> Legvilágosabb", en:"Bright -> Brighter - Brightest"},
+                {hu:"Boldog -> Boldogabb -> Legboldogabb", en:"Happy -> Happier -> Happiest"},
+                {hu:"Szomorú -> Szomorúbb -> Legszomorúbb", en:"Sad -> Sadder -> Saddest"},
+                {hu:"Biztonságos -> Biztonságosabb -> Legbiztonságosabb", en:"Safe -> Safer -> Safest"},
+                {hu:"Veszélyes -> Veszélyesebb -> Legveszélyesebb", en:"Dangerous -> More dangerous -> Most dangerous"},
+                {hu:"Fontos -> Fontosabb -> Legfontosabb", en:"Important -> More important -> Most important"}
+            ],
+            ion_szavak: [
+                {hu:"Információ", en:"Information"}, {hu:"Állomás", en:"Station"}, {hu:"Ország", en:"Nation"},
+                {hu:"Kifejezés", en:"Expression"}, {hu:"Akció", en:"Action"}, {hu:"Opció", en:"Option"},
+                {hu:"Kommunikáció", en:"Communication"}, {hu:"Oktatás", en:"Education"}, {hu:"Megoldás", en:"Solution"},
+                {hu:"Találmány", en:"Invention"}, {hu:"Bevezetés", en:"Introduction"}, {hu:"Utasítás", en:"Instructions"},
+                {hu:"Koncentráció", en:"Concentration"}, {hu:"Illúzió", en:"Illusion"}, {hu:"Produkció", en:"Production"},
+                {hu:"Irány", en:"Direction"}, {hu:"Katasztrófa", en:"Catastrophe"}, {hu:"Operáció", en:"Operation"},
+                {hu:"Szervezet", en:"Organization"}, {hu:"Képzelet", en:"Imagination"}, {hu:"Trakció", en:"Traction"},
+                {hu:"Spekuláció", en:"Speculation"}, {hu:"Dedikáció", en:"Dedication"}, {hu:"Navigáció", en:"Navigation"},
+                {hu:"Publicitás", en:"Publication"}, {hu:"Kolakció", en:"Collection"}, {hu:"Korreakció", en:"Correction"},
+                {hu:"Protektció", en:"Protection"}, {hu:"Tradíció", en:"Tradition"}, {hu:"Reakció", en:"Reaction"}
+            ],
+            csillagjegyek: [
+                {hu:"Kos", en:"Aries"}, {hu:"Bika", en:"Taurus"}, {hu:"Ikrek", en:"Gemini"}, {hu:"Rák", en:"Cancer"},
+                {hu:"Oroszlán", en:"Leo"}, {hu:"Szűz", en:"Virgo"}, {hu:"Mérleg", en:"Libra"}, {hu:"Skorpió", en:"Scorpio"},
+                {hu:"Nyilas", en:"Sagittarius"}, {hu:"Bak", en:"Capricorn"}, {hu:"Vízöntő", en:"Aquarius"}, {hu:"Halak", en:"Pisces"},
+                {hu:"Horoszkóp", en:"Horoscope"}, {hu:"Csillagkép", en:"Constellation"}, {hu:"Asztrológia", en:"Astrology"}, {hu:"Zodiákus", en:"Zodiac"},
+                {hu:"Bolygó", en:"Planet"}, {hu:"Hold", en:"Moon"}, {hu:"Nap", en:"Sun"}, {hu:"Kozmosz", en:"Cosmos"},
+                {hu:"Univerzum", en:"Universe"}, {hu:"Galaxis", en:"Galaxy"}, {hu:"Csillag", en:"Star"}, {hu:"Üstökös", en:"Comet"},
+                {hu:"Meteor", en:"Meteor"}, {hu:"Aszteroida", en:"Asteroid"}, {hu:"Fekete lyuk", en:"Black hole"}, {hu:"Naprendszer", en:"Solar system"},
+                {hu:"Űrutazás", en:"Space travel"}, {hu:"Űrhajós", en:"Astronaut"}
+            ]
+        };
+
+        const katNevek = {
+            melleknevek: "✨ Melléknevek", erzelmek: "💖 Ézrelmek & Kifejezések",
+            abc: "🔤 Angol ABC", nyelvtani_szavak: "📚 Szavak nyelvtanuláshoz", ido_egyseg: "📅 Napok, hónapok, évszakok",
+            orszagok: "🌍 Országok, nemzetek", szamok: "🔢 Számok", szinek: "🎨 Színek", nevmasok: "👤 Személyes névmások",
+            napi_rutin: "⏰ Napi rutin", csalad: "👨‍👩‍👧‍👦 A család", foglalkozasok: "💼 Foglalkozások", udvozles: "🤝 Üdvözlés",
+            ellentet1: "⚖️ Ellentétpárok I.", ellentet2: "⚖️ Ellentétpárok II.", ellentet3: "⚖️ Ellentétpárok III.",
+            ellentet4: "⚖️ Ellentétpárok IV.", eros_melleknevek: "✨ Erős melléknevek", targyak: "🎒 Tárgyak",
+            idohatarozok: "⏳ Időhatározó szavak", etel_ital: "🍲 Étel és ital", italok: "☕ Italok",
+            gyumolcsok: "🍎 Gyümölcsök & Zöldségek", allatok: "🐶 Állatok", ruhak: "👕 Ruhák", otthon: "🏠 Otthon",
+            konyhaban: "🍳 A konyhában", varosban: "🏙️ A városban", idojaras: "🌤️ Az időjárás", szemelyiseg: "🧠 Személyiség",
+            penz: "💰 Pénz", test: "👤 Az emberi test", rendhagyo_igek: "🔄 Rendhagyó igék I.", tobbesszam: "👥 Rendhagyó többes szám",
+            rendhagyo_mellek: "⚡ Rendhagyó melléknevek", ion_szavak: "🔬 -ion végű szavak", csillagjegyek: "♈ Csillagjegyek"
+        };
+
+        function nyitKategoria(kulcs) {
+            document.getElementById("mainMenu").style.display = "none";
+            document.querySelectorAll(".section-view").forEach(el => el.style.display = "none");
+
+            if (kulcs === 'teszt') {
+                document.getElementById("tesztNezet").style.display = "block";
+                kovetkezoIrasosTeszt();
+            } else {
+                document.getElementById("tartalomNezet").style.display = "block";
+                document.getElementById("kategoriaCim").innerHTML = katNevek[kulcs];
+                
+                var container = document.getElementById("szavakGrid");
+                container.innerHTML = "";
+                
+                var lista = adatbazis[kulcs];
+                lista.forEach(item => {
+                    var szoSzoveg = item.en;
+                    if(item.v1) szoSzoveg = item.v1 + ", " + item.v2 + ", " + item.v3;
+                    
+                    container.innerHTML += `
+                        <div class="word-card">
+                            <div class="word-hu">${item.hu}</div>
+                            <div class="word-en">${szoSzoveg}</div>
+                            <button class="speak-btn" onclick="kiejt('${szoSzoveg}')">🔊 Kiejtés</button>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function visszaFomenv() {
+            document.querySelectorAll(".section-view").forEach(el => el.style.display = "none");
+            document.getElementById("mainMenu").style.display = "grid";
+        }
+
+        function kiejt(szo) {
+            if ('speechSynthesis' in window) {
+                var utterance = new SpeechSynthesisUtterance(szo);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        let osszesSzotar = [];
+        for (let kat in adatbazis) {
+            osszesSzotar = osszesSzotar.concat(adatbazis[kat]);
+        }
+
+        let aktHelyesSzoObj = "";
+
+        function kovetkezoIrasosTeszt() {
+            document.getElementById("tesztEredmeny").innerHTML = "";
+            document.getElementById("tesztInput").value = "";
+
+            let elem = osszesSzotar[Math.floor(Math.random() * osszesSzotar.length)];
+            document.getElementById("tesztKerdes").innerHTML = elem.hu;
+            
+            if(elem.en) {
+                aktHelyesSzoObj = elem.en;
+            } else {
+                aktHelyesSzoObj = elem.v1;
+            }
+        }
+
+        function ellenorizIrasos() {
+            let beirt = document.getElementById("tesztInput").value.trim().toLowerCase();
+            let helyes = aktHelyesSzoObj.trim().toLowerCase();
+            let eredmenyHely = document.getElementById("tesztEredmeny");
+
+            if (beirt === helyes || helyes.includes(beirt)) {
+                eredmenyHely.innerHTML = "✅ Helyes válasz! Szép munka!";
+                eredmenyHell.style.color = "#10b981";
+                kiejt(aktHelyesSzoObj);
+                setTimeout(kovetkezoIrasosTeszt, 1500);
+            } else {
+                eredmenyHely.innerHTML = "❌ Nem talált, próbáld újra!";
+                eredmenyHely.style.color = "#ef4444";
+            }
+        }
+
+        function mutatSegitseg() {
+            let eredmenyHely = document.getElementById("tesztEredmeny");
+            eredmenyHely.innerHTML = "💡 A helyes megoldás: <span style='color: #38bdf8;'>" + aktHelyesSzoObj + "</span>";
+            eredmenyHely.style.color = "#f59e0b";
+            kiejt(aktHelyesSzoObj);
+        }
+    </script>
+
+</body>
+</html>
